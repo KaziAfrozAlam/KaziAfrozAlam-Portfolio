@@ -1,0 +1,4 @@
+import type { Metadata } from 'next';
+import './globals.css';
+export const metadata: Metadata={title:'Kazi Afroz Alam — Backend AI Engineer | ML & Intelligent Systems',description:'Portfolio of Kazi Afroz Alam, a Backend AI Engineer building retrieval systems, embeddings-based applications, machine learning APIs, and production-ready AI systems.',openGraph:{title:'Kazi Afroz Alam — Backend AI Engineer',description:'ML systems, retrieval, embeddings and production-oriented AI engineering.',type:'website'},twitter:{card:'summary_large_image',title:'Kazi Afroz Alam — Backend AI Engineer',description:'ML systems, retrieval, embeddings and production-oriented AI engineering.'}};
+export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="en"><body>{children}</body></html>}

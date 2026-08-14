@@ -1,0 +1,8 @@
+'use client';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Float, Line, PerspectiveCamera } from '@react-three/drei';
+import { useMemo, useRef } from 'react';
+import * as THREE from 'three';
+
+function Graph(){const group=useRef<THREE.Group>(null);const points=useMemo(()=>Array.from({length:28},(_,i)=>{const a=(i/28)*Math.PI*2;const r=2.2+(i%4)*.32;return new THREE.Vector3(Math.cos(a)*r,(i%5-2)*.42,Math.sin(a)*r)}),[]);useFrame((_,d)=>{if(group.current){group.current.rotation.y+=d*.045;group.current.rotation.x=Math.sin(Date.now()*.00025)*.06}});const edges=useMemo(()=>points.flatMap((p,i)=>{const q=points[(i+1)%points.length];return [p,q]}),[points]);return <group ref={group}>{points.map((p,i)=><Float key={i} speed={1.2} rotationIntensity={.2} floatIntensity={.35}><mesh position={p}><sphereGeometry args={[i%7===0?.09:.045,12,12]}/><meshStandardMaterial color={i%7===0?'#d7ff4f':'#7d8a9d'} emissive={i%7===0?'#9fbd2f':'#1b2531'} emissiveIntensity={i%7===0?1.8:.35}/></mesh></Float>)}<Line points={edges} color="#334152" transparent opacity={.65} lineWidth={.7}/><mesh><sphereGeometry args={[.42,20,20]}/><meshStandardMaterial color="#d7ff4f" emissive="#8cae20" emissiveIntensity={2.2} transparent opacity={.9}/></mesh></group>}
+export default function SemanticGraph(){return <div className="semantic-graph" aria-label="Animated semantic knowledge graph"><Canvas dpr={[1,1.5]} gl={{antialias:true,alpha:true}}><PerspectiveCamera makeDefault position={[0,0,7]} fov={45}/><ambientLight intensity={1.2}/><pointLight position={[3,4,4]} intensity={8}/><Graph/></Canvas><div className="graph-labels"><span>EMBEDDINGS</span><span>RETRIEVAL</span><span>SEMANTIC GRAPH</span></div></div>}
