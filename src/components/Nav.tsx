@@ -65,7 +65,7 @@ export default function Nav() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub"
-            className="flex h-10 w-10 items-center justify-center text-dim transition-colors hover:text-paper"
+            className="flex h-11 w-11 items-center justify-center text-dim transition-colors hover:text-paper"
           >
             <Github size={18} />
           </a>
@@ -75,7 +75,7 @@ export default function Nav() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"
-            className="flex h-10 w-10 items-center justify-center text-dim transition-colors hover:text-paper"
+            className="flex h-11 w-11 items-center justify-center text-dim transition-colors hover:text-paper"
           >
             <Linkedin size={18} />
           </a>
@@ -93,7 +93,7 @@ export default function Nav() {
             aria-expanded={mobileOpen}
             aria-controls="mobile-nav"
             aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
-            className="flex h-10 w-10 items-center justify-center text-paper transition-colors hover:text-accent lg:hidden"
+            className="flex h-11 w-11 items-center justify-center text-paper transition-colors hover:text-accent lg:hidden"
           >
             {mobileOpen ? <X size={20} /> : <Menu size={20} />}
           </button>

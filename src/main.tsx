@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router';
+import { MotionConfig } from 'motion/react';
 import { AppProviders } from './providers';
 import App from './App';
 import './index.css';
@@ -10,10 +11,12 @@ if (!rootElement) throw new Error('Root element #root not found');
 
 createRoot(rootElement).render(
   <StrictMode>
-    <AppProviders>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </AppProviders>
+    <MotionConfig reducedMotion="user">
+      <AppProviders>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </AppProviders>
+    </MotionConfig>
   </StrictMode>,
 );

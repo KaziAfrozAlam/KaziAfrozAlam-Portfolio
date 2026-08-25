@@ -158,7 +158,7 @@ export default function AIAgent() {
 							<span data-ev-id="ev_e1d2231653" className="font-mono text-[11px] tracking-[0.18em] text-dim">GROUNDED ON PORTFOLIO DATA</span>
 						</div>
 
-						<div data-ev-id="ev_8b64d3bd9f" ref={chatRef} className="flex min-h-[320px] flex-1 flex-col gap-4 overflow-y-auto p-4">
+						<div data-ev-id="ev_8b64d3bd9f" ref={chatRef} aria-live="polite" aria-relevant="additions" className="flex min-h-[320px] flex-1 flex-col gap-4 overflow-y-auto p-4">
 							{messages.length === 0 &&
               <div data-ev-id="ev_9458514da9" className="flex flex-1 flex-col items-center justify-center gap-3 text-center">
 									<Sparkles size={32} className="text-accent/50" />
@@ -199,17 +199,20 @@ export default function AIAgent() {
 									</motion.div>
                 )}
 							</AnimatePresence>
-							{typing &&
+						{typing &&
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
+                role="status"
+                aria-live="polite"
                 className="flex items-center gap-3">
 
-									<div data-ev-id="ev_43fc1e86a5" className="flex h-8 w-8 items-center justify-center bg-accent/20">
-										<Bot size={16} className="text-accent" />
-									</div>
-									<div data-ev-id="ev_24afc7eb53" className="flex gap-1 px-4 py-3">
-										{[0, 1, 2].map((i) =>
+								<div data-ev-id="ev_43fc1e86a5" className="flex h-8 w-8 items-center justify-center bg-accent/20">
+									<Bot size={16} className="text-accent" />
+								</div>
+								<div data-ev-id="ev_24afc7eb53" className="flex gap-1 px-4 py-3">
+									<span className="sr-only">Agent is typing…</span>
+									{[0, 1, 2].map((i) =>
                   <motion.span
                     key={i}
                     className="h-2 w-2 rounded-full bg-accent"
@@ -217,8 +220,8 @@ export default function AIAgent() {
                     transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }} />
 
                   )}
-									</div>
-								</motion.div>
+								</div>
+							</motion.div>
               }
 						</div>
 

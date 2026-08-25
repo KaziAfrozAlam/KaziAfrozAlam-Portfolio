@@ -64,15 +64,17 @@ export default function Contact() {
   name: keyof typeof values,
   label: string,
   placeholder: string,
-  textarea = false) =>
-
+  textarea = false) => {
+  const errId = `contact-${name}-error`;
+  const invalid = !!errors[name];
+  return (
   <div data-ev-id="ev_2db44ae474" className="flex flex-col gap-2.5">
       <label data-ev-id="ev_23d127c563"
     htmlFor={name}
     className="flex items-center justify-between font-mono text-xs tracking-[0.15em] text-dim uppercase">
 
         <span data-ev-id="ev_86cfb08594">{label}</span>
-        {errors[name] && <span data-ev-id="ev_a7072d5616" className="text-accent">{errors[name]}</span>}
+        {invalid && <span data-ev-id="ev_a7072d5616" id={errId} role="alert" className="text-accent">{errors[name]}</span>}
       </label>
       {textarea ?
     <textarea data-ev-id="ev_8bc9b56bb5"
@@ -81,6 +83,8 @@ export default function Contact() {
     rows={5}
     value={values[name]}
     onChange={(e) => setValues((v) => ({ ...v, [name]: e.target.value }))}
+    aria-invalid={invalid}
+    aria-describedby={invalid ? errId : undefined}
     className="resize-none border border-line bg-ink/50 px-4 py-3.5 font-body text-base text-paper outline-none transition-colors placeholder:text-dim/60 focus:border-accent"
     placeholder={placeholder} /> :
 
@@ -89,13 +93,18 @@ export default function Contact() {
     id={name}
     name={name}
     type={name === 'email' ? 'email' : 'text'}
+    autoComplete={name === 'email' ? 'email' : name === 'name' ? 'name' : 'off'}
     value={values[name]}
     onChange={(e) => setValues((v) => ({ ...v, [name]: e.target.value }))}
+    aria-invalid={invalid}
+    aria-describedby={invalid ? errId : undefined}
     className="border border-line bg-ink/50 px-4 py-3.5 font-body text-base text-paper outline-none transition-colors placeholder:text-dim/60 focus:border-accent"
     placeholder={placeholder} />
 
     }
-    </div>;
+    </div>
+  );
+};
 
 
   return (
@@ -199,7 +208,7 @@ export default function Contact() {
           <div data-ev-id="ev_ec95e74c34">
             <h3 data-ev-id="ev_3dbf9071d5" className="font-mono text-sm tracking-[0.2em] text-paper mb-6">SEND A MESSAGE</h3>
             {sent ?
-            <div data-ev-id="ev_437e7602dc" className="flex flex-col items-start justify-center gap-4 border border-accent/40 bg-panel/40 p-10">
+            <div data-ev-id="ev_437e7602dc" role="status" className="flex flex-col items-start justify-center gap-4 border border-accent/40 bg-panel/40 p-10">
                 <Check size={32} className="text-accent" />
                 <p data-ev-id="ev_6e51416a57" className="font-display text-2xl font-semibold tracking-tight text-paper">MESSAGE QUEUED.</p>
                 <p data-ev-id="ev_8d78d4c0cd" className="font-mono text-sm tracking-[0.12em] text-dim">
@@ -213,7 +222,7 @@ export default function Contact() {
             className="flex flex-col gap-5">
 
                 {submitError &&
-                <p data-ev-id="ev_9f1c2d3e4f" className="border border-accent/40 bg-panel/40 px-4 py-3 font-mono text-xs tracking-[0.12em] text-accent">
+                <p data-ev-id="ev_9f1c2d3e4f" role="alert" className="border border-accent/40 bg-panel/40 px-4 py-3 font-mono text-xs tracking-[0.12em] text-accent">
                   {submitError}
                 </p>
                 }
