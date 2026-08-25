@@ -1,0 +1,10 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# SPA fallback — serve index.html for client-side routes.
+# (public/_redirects is also copied into dist for drag-and-drop deploys.)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
