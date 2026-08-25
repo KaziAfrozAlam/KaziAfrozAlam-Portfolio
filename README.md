@@ -6,12 +6,53 @@ A single-page, terminal‑inspired developer portfolio for **Kazi Afroz Alam**, 
 
 ---
 
+## Assignment — "Open It on Your Phone" (Week 6 · General AI Fluency)
+
+**Goal:** make the portfolio genuinely work on a real phone (and tablet/desktop), fix readability/contrast, verify every link, and keep a fix log.
+
+**Method:** I audited the site with AI ("what's broken on mobile, what's the accessibility problem, why is this slow?") plus manual checks at **375px / 768px / 1280px**, then fixed each finding and verified with a Playwright smoke suite (9/9 passing on both mobile and desktop).
+
+### Fix Log
+
+| # | Problem (before) | Fix (after) | Evidence |
+|---|---|---|---|
+| 1 | **Mobile navigation was broken** — the hamburger menu scrolled away / its links were unreachable on phones. | Rebuilt `Nav` with a real toggle: `aria-expanded` + `aria-controls`, closes on link click and `Escape`, panel stays inside the fixed header. | `fix-log/before-mobile.png` vs `fix-log/after-mobile.png` |
+| 2 | **AI agent input/send unreachable on small screens** — the chat input + send button could be pushed out of view. | Chat is a single column on mobile; full-width labeled input (`aria-label`) + send button (`aria-label="Send message"`) always reachable. | `fix-log/after-mobile.png` |
+| 3 | **No skip link / no main landmark** — keyboard & screen-reader users had no quick way past the nav. | Added a "Skip to content" link (visible on focus) and `id="main"` on `<main>`. | smoke: "skip link is keyboard reachable" |
+| 4 | **No visible focus indicator** — keyboard focus was invisible. | Global `:focus-visible` accent outline on all interactive elements. | `src/theme.css` |
+| 5 | **Reduced-motion ignored** — animations kept running for users who asked to reduce motion. | Full `prefers-reduced-motion` CSS block + `<MotionConfig reducedMotion="user">`. | `src/theme.css`, `src/main.tsx` |
+| 6 | **Async feedback not announced** — chat replies / form errors / success weren't read by screen readers. | `aria-live="polite"` on chat, `role="status"` + sr-only "Agent is typing…", `role="alert"` on form errors, `role="status"` on success. | `AIAgent.tsx`, `Contact.tsx` |
+| 7 | **Form not accessible** — inputs lacked `aria-invalid`/`aria-describedby`; submit was clickable while empty. | Wired `aria-invalid` + `aria-describedby`; submit disabled until name/email/message are filled; added `autocomplete`. | smoke: "contact form enables submit when filled" |
+| 8 | **Small touch targets** — hamburger + social icons were 40px. | Bumped to 44px (WCAG 2.5.5 target size). | `src/components/Nav.tsx` |
+| 9 | **Section landmarks missing** — sections weren't labeled regions; heading order unverified. | Each `Section` is `role="region"` with `aria-labelledby`; verified heading order h1→h2→h3 (no skips). | `src/components/ui/Section.tsx` |
+| 10 | **Possible overflow / blurry images** — checked. No horizontal overflow (body uses `overflow-x: clip`). Project visuals are vector (SVG/CSS), so they stay crisp at every width; no raster images to compress. | Confirmed no overflow at 375/768/1280; no raster assets. | `fix-log/overflow.mjs` + `fix-log/after-*.png` |
+
+### Verification (maps to the pass/revise rubric)
+
+- ✅ **Works on mobile** — hamburger menu, AI chat, and contact form are all reachable at 375px (screenshots + Playwright smoke suite, 9/9 on mobile *and* desktop).
+- ✅ **Readable & crisp** — comfortable text sizes and line spacing; project visuals are SVG/CSS (no blurry raster); no horizontal overflow at any width.
+- ✅ **Contrast** — primary text/accents on `#080808` meet WCAG AA; the dim gray `#8a8a8a` is used only for secondary monospace labels.
+- ✅ **Links** — nav, footer, social (GitHub / LinkedIn / Resume), and every project's repo + demo link resolve; the smoke test asserts the GitHub/LinkedIn/Resume destinations.
+- ✅ **Nothing obviously broken** at 375 / 768 / 1280 (see `fix-log/*.png`).
+
+### Screenshots
+
+- **Before** (live, previous build): `fix-log/before-mobile.png`, `fix-log/before-tablet.png`, `fix-log/before-desktop.png`
+- **After** (this build): `fix-log/after-mobile.png`, `fix-log/after-tablet.png`, `fix-log/after-desktop.png`
+
+### Deliverables
+
+- **Live URL:** `https://kaziafrozalam.netlify.app` (re-deploy with these fixes — see [Deployment](#deployment)).
+- **Fix log:** this section.
+
+---
+
 ## Features
 
 - **Sections** — Hero, About, Experience (incl. FlyRank AI), Projects (9 projects), Skills, Metrics, Education, Publications, Future Work, an interactive **AI Agent**, and a Contact form.
 - **AI Agent (Afroz.AI)** — answers questions about the resume, projects, skills, and publications. It is a Supabase Edge Function grounded on `src/data/portfolio.ts`, with an optional LLM mode and a local deterministic fallback. It can also answer broader technical questions such as a **DNS walkthrough** and this project's **README/overview**.
 - **Contact form** — submitted to a Supabase Edge Function that persists entries to a `contacts` table.
-- **Responsive + animated** — Framer Motion transitions, monospace/terminal aesthetic, fully responsive layout.
+- **Responsive, accessible + animated** — Framer Motion transitions, monospace/terminal aesthetic, fully responsive layout, skip link, visible focus, and reduced-motion support.
 
 ## Tech Stack
 
@@ -168,6 +209,8 @@ create table if not exists public.contacts (
 
 `npm run build` outputs `dist/`. Deploy it to any static host (Vercel, Netlify, Cloudflare Pages, GitHub Pages, etc.). Set the same `VITE_SUPABASE_*` env vars in the host's build settings.
 
+**Netlify (one command):** `netlify.toml` is included (build = `npm run build`, publish = `dist`, SPA fallback). Run `npm run deploy` (builds and publishes `dist/`; first run opens a browser to authenticate), or drag-and-drop the `dist/` folder in the Netlify deploys UI.
+
 ### Functions
 
 Deploy with the `supabase functions deploy` commands above. Ensure the function secrets are set in the Supabase dashboard or via the CLI.
@@ -185,6 +228,8 @@ Edit that single file to update the site and keep the AI agent consistent. Remem
 | `npm run build`    | Production build to `dist/`                     |
 | `npm run preview`  | Preview the production build                    |
 | `npm run typecheck`| Run `tsc --noEmit`                              |
+| `npm run test:e2e` | Run Playwright smoke tests (`BASE_URL` overrides target) |
+| `npm run deploy`   | Build + publish `dist/` to Netlify              |
 
 ## Notes
 
