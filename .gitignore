@@ -1,0 +1,23 @@
+# Dependencies
+node_modules
+dist
+dist-ssr
+
+# Secrets / environment — never commit real values
+.env
+.env.*
+!.env.example
+
+# Supabase local artifacts
+.supabase
+supabase/.temp
+
+# Playwright
+test-results
+playwright-report
+blob-report
+
+# Preview / logs
+*.log
+preview.out.log
+preview.err.log

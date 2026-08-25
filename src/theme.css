@@ -1,0 +1,105 @@
+/**
+ * THEME — Tailwind v4. Kazi Afroz Alam / AI Systems Laboratory
+ * Custom values live inside @theme { }. Base + font rules live outside it.
+ */
+@theme {
+	/* Core palette */
+	--color-ink: #080808;
+	--color-paper: #f2f0ea;
+	--color-graphite: #151515;
+	--color-panel: #101010;
+	--color-line: #232323;
+	--color-line-strong: #333333;
+  --color-dim: #8a8a8a;
+	--color-accent: #22d3ee;
+	--color-accent-foreground: #080808;
+
+	/* Semantic mappings */
+	--color-primary: #22d3ee;
+	--color-primary-foreground: #080808;
+	--color-border: #232323;
+	--color-ring: #22d3ee;
+	--color-muted: #101010;
+  --color-muted-foreground: #8a8a8a;
+
+	/* Fonts */
+	--font-display: 'Space Grotesk', system-ui, sans-serif;
+	--font-body: 'Inter Tight', system-ui, sans-serif;
+	--font-mono: 'Space Grotesk', ui-monospace, monospace;
+
+	/* Radius (kept sharp) */
+	--radius-sm: 0px;
+	--radius-md: 0px;
+	--radius-lg: 0px;
+}
+
+html {
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+	scroll-behavior: smooth;
+	scroll-padding-top: 5rem;
+	background: #080808;
+}
+
+body {
+	background: #080808;
+	color: #f2f0ea;
+	font-family: var(--font-body);
+	overflow-x: clip;
+	font-feature-settings: 'ss01', 'cv01';
+}
+
+::selection {
+	background: #22d3ee;
+	color: #080808;
+}
+
+/* Hide native cursor only where a real pointer exists */
+@media (pointer: fine) {
+	.cursor-lab,
+	.cursor-lab * {
+		cursor: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+}
+
+/* Thin technical scrollbar */
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+::-webkit-scrollbar-track {
+	background: #080808;
+}
+::-webkit-scrollbar-thumb {
+	background: #232323;
+}
+::-webkit-scrollbar-thumb:hover {
+	background: #22d3ee;
+}
+
+/* Blueprint grid utility */
+.bg-grid {
+	background-image: linear-gradient(#ffffff08 1px, transparent 1px),
+		linear-gradient(90deg, #ffffff08 1px, transparent 1px);
+	background-size: 48px 48px;
+}
+
+.bg-noise {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+@keyframes blink {
+	0%, 49% { opacity: 1; }
+	50%, 100% { opacity: 0; }
+}
+.animate-blink { animation: blink 1s steps(1) infinite; }
+
+@keyframes dash-flow {
+	to { stroke-dashoffset: -1000; }
+}
