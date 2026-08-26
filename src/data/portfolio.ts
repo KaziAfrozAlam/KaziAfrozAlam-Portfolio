@@ -62,7 +62,7 @@ export const TOTAL_INDEX = sectionIndex.length; // 14
 export const metrics = [
 	{ value: 29, suffix: '', label: 'BI DASHBOARDS' },
 	{ value: 8, suffix: '+', label: 'ML MODELS' },
-	{ value: 60, suffix: '%', label: 'MANUAL REPORTING REDUCTION' },
+	{ value: 50, suffix: '%+', label: 'REPORTING TIME SAVED' },
 	{ value: 2, suffix: '', pad: true, label: 'AI/ML PUBLICATIONS' },
 ];
 
@@ -113,7 +113,7 @@ export const experience = [
 		location: 'Remote',
 		featured: true,
 		points: [
-			'Completed the General AI Fluency Impact Project, building an LLM-powered RAG Personal Command Center with Express.js, local retrieval, grounded responses, and server-side API-key handling.',
+			'At FlyRank AI, built the LLM-powered RAG Personal Command Center (the General AI Fluency Impact Project) with Express.js, local retrieval, grounded responses, and server-side API-key handling.',
 			'Built a FastAPI Task Management API progressing from in-memory CRUD to SQLite, PostgreSQL/Docker, and Supabase JWT authentication and authorization.',
 			'Engineered a resilient Books scraping pipeline using Requests, BeautifulSoup, Pydantic, caching, retries/backoff, validation, change detection, and JSON/CSV reporting.',
 			'Developed a PDF reporting service using FastAPI, SQLite, SQL aggregation, Playwright/Chromium, report serving, 404 handling, and same-day idempotency.',
@@ -193,7 +193,7 @@ export const projects: Project[] = [
 		metrics: [],
 		github: 'https://github.com/KaziAfrozAlam/General-AI-Fluency-Impact-Project',
 		points: [
-			'Completed the General AI Fluency Impact Project — built an LLM-powered RAG Personal Command Center with Express.js and local retrieval for grounded responses.',
+			'Delivered a working RAG assistant that answers questions grounded in local knowledge, with server-side API-key handling so secrets never reach the client.',
 			'Implemented server-side API-key handling so secrets never reach the client, with retrieval-augmented answers over local knowledge.',
 		],
 	},
@@ -207,7 +207,7 @@ export const projects: Project[] = [
 		metrics: [],
 		github: 'https://github.com/KaziAfrozAlam/Task-Management-CRUD-API-FastAPI',
 		points: [
-			'Built a FastAPI Task Management API progressing from in-memory CRUD to SQLite, then PostgreSQL with Docker Compose.',
+			'Shipped a FastAPI task API that progresses from in-memory CRUD to SQLite and PostgreSQL/Docker, then adds Supabase JWT auth.',
 			'Added Supabase JWT authentication and authorization — Bearer-token protected task, protected, and admin routes with 401/403 access control.',
 		],
 	},
@@ -221,7 +221,7 @@ export const projects: Project[] = [
 		metrics: [],
 		github: 'https://github.com/KaziAfrozAlam/Books-Scraper-Pipeline',
 		points: [
-			'Engineered a resilient Books scraping pipeline using Requests and BeautifulSoup with Pydantic validation and JSON/CSV reporting.',
+			'Built a resilient scraper that turns raw book pages into clean, validated JSON/CSV reports with caching, retries, and change detection.',
 			'Added caching, retries/backoff, validation, and change detection for reliable, low-noise data collection.',
 		],
 	},
@@ -235,7 +235,7 @@ export const projects: Project[] = [
 		metrics: [],
 		github: 'https://github.com/KaziAfrozAlam/PDF-Report-Generator',
 		points: [
-			'Developed a PDF reporting service using FastAPI, SQLite, and SQL aggregation with Playwright/Chromium rendering.',
+			'Delivered a FastAPI service that renders branded PDF reports on demand with 404 handling and same-day idempotency.',
 			'Implemented report serving, 404 handling, and same-day idempotency for repeatable, reliable report delivery.',
 		],
 	},
@@ -249,7 +249,7 @@ export const projects: Project[] = [
 		metrics: [],
 		github: 'https://github.com/KaziAfrozAlam/Inngest-Server-Background-Job',
 		points: [
-			'Implemented Inngest background jobs for asynchronous report generation with 202 responses and status polling.',
+			'Added Inngest background jobs that generate reports asynchronously (202 + status polling) with retries and cron heartbeat monitoring.',
 			'Added retries/backoff and cron-scheduled heartbeat monitoring for resilient, observable job execution.',
 		],
 	},
@@ -264,7 +264,7 @@ export const projects: Project[] = [
 		github: 'https://github.com/KaziAfrozAlam/Churn-Prediction',
 		cloud: ['EC2', 'ECR', 'S3', 'SAGEMAKER'],
 		points: [
-			'Production-ready ML FAST API using a Random Forest Classifier trained on 7,000+ telecom records, achieving 85% test accuracy.',
+			'Trained a Random Forest on 7,000+ telecom records (85% test accuracy) and exposed it via a production-ready FastAPI with Docker/AWS deploy.',
 			'Deployed on AWS EC2 with Docker, ECR, CI/CD, IAM-controlled access, and SageMaker-managed training — an end-to-end ML deployment workflow.',
 			'FastAPI prediction, health-check, and Pydantic validation endpoints for reliable model inference.',
 		],
@@ -279,7 +279,7 @@ export const projects: Project[] = [
 		metrics: [ { big: '92%', small: 'ACCURACY' } ],
 		github: 'https://github.com/KaziAfrozAlam/Real-Time-Social-Media-Analytics-Pipeline',
 		points: [
-			'Real-time sentiment analysis pipeline using Apache Kafka, Spark Streaming, and PySpark ML.',
+			'Built a Kafka + Spark Streaming pipeline that classifies tweet sentiment at 92% accuracy on the project dataset.',
 			'Sentiment classification and model evaluation achieving 92% accuracy on the project dataset.',
 			'Integrated the ML component with the streaming workflow to continuously process and classify incoming tweet data.',
 		],
@@ -295,7 +295,7 @@ export const projects: Project[] = [
 		github: 'https://github.com/KaziAfrozAlam/PowerBI',
 		bars: [64, 82, 40, 96, 58, 74],
 		points: [
-			'Designed 14 business-ready dashboards across Sales, HR, and Finance using SQL, Power Query, DAX, interactive KPIs, drill-through filters, and slicers.',
+			'Designed 14 business-ready dashboards (Sales/HR/Finance) that cut manual reporting by 50%+, with DAX, drill-through, and slicers.',
 			'Automated reporting workflows and delivered stakeholder-ready visualizations — an estimated 50%+ reduction in manual reporting effort across covered functions.',
 		],
 	},
@@ -310,7 +310,7 @@ export const projects: Project[] = [
 		github: 'https://github.com/KaziAfrozAlam/Tableau',
 		bars: [30, 55, 78, 46, 90, 62, 38, 70],
 		points: [
-			'Delivered 15 Tableau workbooks across 6+ datasets, transforming sales, logistics, and environmental data into interactive business insights.',
+			'Delivered 15 Tableau workbooks across 6+ datasets, turning sales, logistics, and environmental data into interactive insights.',
 			'Implemented LOD expressions, calculated fields, parameters, and multi-source joins across multiple data granularities and business dimensions.',
 		],
 	},
@@ -354,26 +354,13 @@ export const research = [
 ];
 
 export const certifications = [
-	{ name: 'MACHINE LEARNING SPECIALIZATION', issuer: 'DEEPLEARNING.AI + STANFORD ONLINE' },
-	{ name: 'FOUNDATION: INTRODUCTION TO LANGCHAIN - PYTHON', issuer: 'LANGCHAIN' },
-	{ name: 'DATABRICKS FUNDAMENTALS', issuer: 'DATABRICKS ACADEMY' },
-	{ name: 'CLOUD COMPUTING', issuer: 'NPTEL' },
-	{ name: 'SQL BASIC', issuer: 'HACKERRANK' },
-	{ name: 'PYTHON BASIC', issuer: 'HACKERRANK' },
+  { name: 'MACHINE LEARNING SPECIALIZATION', issuer: 'DEEPLEARNING.AI + STANFORD ONLINE' },
+  { name: 'FOUNDATION: INTRODUCTION TO LANGCHAIN - PYTHON', issuer: 'LANGCHAIN' },
+  { name: 'DATABRICKS FUNDAMENTALS', issuer: 'DATABRICKS ACADEMY' },
+  { name: 'CLOUD COMPUTING', issuer: 'NPTEL' },
+  { name: 'SQL BASIC', issuer: 'HACKERRANK' },
+  { name: 'PYTHON BASIC', issuer: 'HACKERRANK' },
 ];
-
-export const capstone = {
-	tag: 'SYSTEM 002',
-	sub: 'NEXT BUILD',
-	label: 'CAPSTONE / COMING SOON',
-	statement: 'THE NEXT SYSTEM IS STILL BEING BUILT.',
-	readout: [
-		{ k: 'PROBLEM', v: '—' },
-		{ k: 'SYSTEM', v: '—' },
-		{ k: 'STACK', v: '—' },
-		{ k: 'STATUS', v: 'IN DEVELOPMENT' },
-	],
-};
 
 export const fieldNotes = [
 	{ topic: 'RAG / EMBEDDINGS', tag: 'RETRIEVAL' },
@@ -416,9 +403,6 @@ export const futureWork = {
 	title: 'FUTURE WORK',
 	subtitle: 'Systems, experiments, research, and learning currently in the pipeline.',
 	cards: [
-		{ id: 'capstone', label: 'CAPSTONE WORK', icon: 'git-branch', empty: true },
-		{ id: 'experiments', label: 'EXPERIMENTS', icon: 'flask', empty: true },
-		{ id: 'field-notes', label: 'FIELD NOTES', icon: 'book-open', empty: true },
 		{
 			id: 'learning',
 			label: 'LEARNING QUEUE',
@@ -430,7 +414,5 @@ export const futureWork = {
 				{ title: 'ADVANCED RAG', note: 'Agentic RAG, self-RAG, corrective RAG', status: 'PLANNED' },
 			],
 		},
-		{ id: 'applied-ai', label: 'APPLIED AI SYSTEMS', icon: 'network', empty: true },
-		{ id: 'research', label: 'RESEARCH PROJECTS', icon: 'microscope', empty: true },
 	],
 };

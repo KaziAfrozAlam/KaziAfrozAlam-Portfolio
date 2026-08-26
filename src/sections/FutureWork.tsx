@@ -82,7 +82,7 @@ function FutureCard({ card }: {card: FutureCardData;}) {
 					</h3>
 				</div>
 				<span data-ev-id="ev_633ffa2a16" className="font-mono text-xs tracking-[0.15em] text-accent">
-					COMING SOON
+					IN PIPELINE
 				</span>
 			</div>
 
@@ -98,7 +98,9 @@ function FutureCard({ card }: {card: FutureCardData;}) {
 
 export default function FutureWork() {
   // Safely access cards with fallback
-  const cards: FutureCardData[] = (futureWork as {cards?: FutureCardData[];}).cards ?? [];
+  const cards: FutureCardData[] = ((futureWork as {cards?: FutureCardData[];}).cards ?? []).filter(
+    (c) => !c.empty,
+  );
 
   return (
     <Section id="future-work" eyebrow="FUTURE WORK" bleed>

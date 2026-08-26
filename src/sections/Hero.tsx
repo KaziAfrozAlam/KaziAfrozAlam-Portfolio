@@ -1,6 +1,6 @@
 import SemanticGraph from '@/components/SemanticGraph';
 import TypingCycle from '@/components/TypingCycle';
-import { profile } from '@/data/portfolio';
+import { BOOKING_URL, profile } from '@/data/portfolio';
 import { useSectionIndex } from '@/hooks/use-section-index';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
@@ -12,7 +12,7 @@ export default function Hero() {
   return (
     <section data-ev-id="ev_5a18ba708e" id="hero" ref={ref} className="relative flex min-h-[100svh] w-full flex-col overflow-hidden bg-ink">
 			<div data-ev-id="ev_cfdbcb3204" className="absolute inset-0">
-				<SemanticGraph density={110} labels={GRAPH_LABELS} connectDist={140} fade className="h-full w-full" />
+				<SemanticGraph density={64} labels={GRAPH_LABELS} connectDist={140} fade className="h-full w-full" />
 			</div>
 			<div data-ev-id="ev_85913a9d62" className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/40 via-transparent to-ink" />
 
@@ -32,7 +32,7 @@ export default function Hero() {
             <motion.span
               key={line}
               className="block text-[16vw] sm:text-[14vw] lg:text-[11rem]"
-              initial={{ opacity: 0, x: -40, filter: 'blur(8px)' }}
+              initial={{ opacity: 0, x: -40, filter: 'blur(4px)' }}
               animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
               transition={{ delay: 0.3 + i * 0.12, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}>
 
@@ -66,9 +66,18 @@ export default function Hero() {
             transition={{ delay: 1.2, duration: 0.6 }}
             className="mt-7 flex flex-wrap gap-3">
 
+						<a data-ev-id="ev_7a1c0b3d21"
+            href={BOOKING_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group cursor-pointer inline-flex items-center gap-2 bg-accent px-6 py-3 font-mono text-xs tracking-[0.18em] text-accent-foreground transition-colors hover:bg-paper">
+
+							BOOK A CALL
+							<ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+						</a>
 						<a data-ev-id="ev_1194684e69"
             href="#projects"
-            className="group cursor-pointer inline-flex items-center gap-2 bg-accent px-6 py-3 font-mono text-xs tracking-[0.18em] text-accent-foreground transition-colors hover:bg-paper">
+            className="group cursor-pointer inline-flex items-center gap-2 border border-line px-6 py-3 font-mono text-xs tracking-[0.18em] text-paper transition-colors hover:border-accent hover:text-accent">
 
 							EXPLORE PROJECTS
 							<ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
