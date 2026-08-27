@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#080808" />
+  <rect x="40" y="40" width="1120" height="550" fill="none" stroke="#1f1f1f" stroke-width="2" />
+  <text x="80" y="190" fill="#f5f5f5" font-family="'Space Grotesk', 'Inter Tight', sans-serif" font-size="66" font-weight="700">KAZI AFROZ ALAM</text>
+  <text x="82" y="258" fill="#22d3ee" font-family="'Space Grotesk', monospace" font-size="34" letter-spacing="6">BACKEND AI ENGINEER</text>
+  <text x="82" y="350" fill="#cfcfcf" font-family="'Inter Tight', sans-serif" font-size="30">Building retrieval, embeddings, and</text>
+  <text x="82" y="394" fill="#cfcfcf" font-family="'Inter Tight', sans-serif" font-size="30">production ML systems.</text>
+  <text x="82" y="560" fill="#6b6b6b" font-family="monospace" font-size="26">kaziafrozalam.netlify.app</text>
+</svg>

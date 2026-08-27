@@ -226,9 +226,10 @@ export default function AIAgent() {
 						</div>
 
 						<form data-ev-id="ev_1610827de2" onSubmit={handleSubmit} className="flex border-t border-line">
-						<input data-ev-id="ev_64d741d2b0"
+        <input data-ev-id="ev_64d741d2b0"
               ref={inputRef}
               type="text"
+              maxLength={2000}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask me anything..."

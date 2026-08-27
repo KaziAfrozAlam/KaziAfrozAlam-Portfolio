@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kaziafrozalam.netlify.app/sitemap.xml

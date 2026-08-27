@@ -77,10 +77,11 @@ export default function Contact() {
         {invalid && <span data-ev-id="ev_a7072d5616" id={errId} role="alert" className="text-accent">{errors[name]}</span>}
       </label>
       {textarea ?
-    <textarea data-ev-id="ev_8bc9b56bb5"
+          <textarea data-ev-id="ev_8bc9b56bb5"
     id={name}
     name={name}
     rows={5}
+    maxLength={5000}
     value={values[name]}
     onChange={(e) => setValues((v) => ({ ...v, [name]: e.target.value }))}
     aria-invalid={invalid}
@@ -94,6 +95,7 @@ export default function Contact() {
     name={name}
     type={name === 'email' ? 'email' : 'text'}
     autoComplete={name === 'email' ? 'email' : name === 'name' ? 'name' : 'off'}
+    maxLength={name === 'email' ? 254 : 120}
     value={values[name]}
     onChange={(e) => setValues((v) => ({ ...v, [name]: e.target.value }))}
     aria-invalid={invalid}
