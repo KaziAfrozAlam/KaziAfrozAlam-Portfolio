@@ -47,9 +47,15 @@ A single-page, terminal‑inspired developer portfolio for **Kazi Afroz Alam**, 
 
 ---
 
+## Portfolio Critique ("Survive the Crit")
+
+A recruiter-style re-review of this portfolio lives in [`Survive-the-Crit-Report.md`](./Survive-the-Crit-Report.md). The second pass scores the site **9/10** and calls it *"hireable, unambiguously"* — the six original must-fix issues (empty Future Work, an unverifiable headline metric, missing book-a-call CTA, generic hero boilerplate, links not opening in a new tab, vague FlyRank copy) are all resolved in code. The only remaining notes are a single "Details coming soon" Future Work card and a suggested deep-dive case study on CHECKMATE.
+
+---
+
 ## Features
 
-- **Sections** — Hero, About, Experience (incl. FlyRank AI), Projects (9 projects), Skills, Metrics, Education, Publications, Future Work, an interactive **AI Agent**, and a Contact form.
+- **Sections** — Hero (with a **BOOK A CALL** CTA), About, Experience (incl. FlyRank AI), Projects (9 projects), Skills, Metrics, Education, Publications, a fully-developed **Future Work** roadmap (six workstreams: Capstone, Experiments, Research Projects, Field Notes, Applied AI Systems, Learning Queue), an interactive **AI Agent**, and a Contact form.
 - **AI Agent (Afroz.AI)** — answers questions about the resume, projects, skills, and publications. It is a Supabase Edge Function grounded on `src/data/portfolio.ts`, with an optional LLM mode and a local deterministic fallback. It can also answer broader technical questions such as a **DNS walkthrough** and this project's **README/overview**.
 - **Contact form** — submitted to a Supabase Edge Function that persists entries to a `contacts` table.
 - **Responsive, accessible + animated** — Framer Motion transitions, monospace/terminal aesthetic, fully responsive layout, skip link, visible focus, and reduced-motion support.

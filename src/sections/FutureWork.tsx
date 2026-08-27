@@ -1,6 +1,6 @@
 import Section from '@/components/ui/Section';
 import { futureWork } from '@/data/portfolio';
-import { BookOpen, FlaskConical, GitBranch, GraduationCap, Microscope, Rocket, Share2, type LucideIcon } from 'lucide-react';
+import { ArrowUpRight, BookOpen, FlaskConical, GitBranch, GraduationCap, Microscope, Rocket, Share2, type LucideIcon } from 'lucide-react';
 
 // Icon mapping - using Share2 for network nodes icon
 const icons: Record<string, LucideIcon> = {
@@ -16,14 +16,33 @@ interface CardItem {
   title: string;
   note: string;
   status: string;
+  link?: string;
 }
 
 interface FutureCardData {
   id: string;
   label: string;
   icon: string;
-  empty: boolean;
+  empty?: boolean;
+  title?: string;
+  description?: string;
+  link?: string;
   items?: CardItem[];
+  badge?: string;
+  tech?: string[];
+  goalLabel?: string;
+  goal?: string;
+  goalNote?: string;
+  status?: string;
+  question?: string;
+  tags?: string[];
+  flow?: string;
+}
+
+// A card is only shown once it carries real content. Empty reserved slots
+// (no title / description / link / items) stay hidden automatically.
+function cardHasContent(card: FutureCardData): boolean {
+  return Boolean(card.title || card.description || card.link || (card.items && card.items.length > 0));
 }
 
 // Empty state indicator
@@ -36,35 +55,156 @@ function EmptyState() {
 
 }
 
+// Renderer for a populated (non-learning) future-work card.
+function CardBody({ card }: { card: FutureCardData }) {
+  return (
+    <div data-ev-id="ev_1c2b3d4e5f" className="flex flex-col gap-3 px-6 py-5">
+      {card.title && (
+        <h4 data-ev-id="ev_a0b1c2d3e4" className="font-display text-base font-semibold tracking-wide text-paper">
+          {card.title}
+        </h4>
+      )}
+      {card.description && (
+        <p data-ev-id="ev_b1c2d3e4f5" className="text-base text-[#6b6b6b]">{card.description}</p>
+      )}
+      {card.link && (
+        <a
+          data-ev-id="ev_c2d3e4f5a6"
+          href={card.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex w-fit items-center gap-2 border border-[#1e1e1e] px-4 py-2 font-mono text-xs tracking-[0.15em] text-paper transition-colors hover:border-accent hover:text-accent"
+        >
+          VIEW PROJECT
+        </a>
+      )}
+    </div>
+  );
+}
+
 // Learning queue timeline
 function LearningTimeline({ items }: {items: CardItem[];}) {
   return (
     <div data-ev-id="ev_a8b3381a6d" className="flex flex-col px-6 py-5">
 			{items.map((item, i) =>
       <div data-ev-id="ev_0e9381117e" key={item.title} className="flex">
-					{/* Left indicator column */}
-					<div data-ev-id="ev_23e9f47bcb" className="flex w-6 flex-col items-center">
-						<div data-ev-id="ev_5db2ef9f96" className="h-2.5 w-2.5 rounded-full bg-accent" />
-						{i < items.length - 1 &&
+				{/* Left indicator column */}
+				<div data-ev-id="ev_23e9f47bcb" className="flex w-6 flex-col items-center">
+					<div data-ev-id="ev_5db2ef9f96" className="h-2.5 w-2.5 rounded-full bg-accent" />
+					{i < items.length - 1 &&
           <div data-ev-id="ev_8f54a6dccd" className="my-1.5 w-px flex-1 bg-[#2a2a2a]" style={{ minHeight: '40px' }} />
           }
-					</div>
-					{/* Content */}
-					<div data-ev-id="ev_01ad521997" className="flex flex-1 items-start justify-between gap-4 pb-6 pl-4">
-						<div data-ev-id="ev_17e6308c0b" className="flex flex-col gap-1">
-							<h4 data-ev-id="ev_b9152b58fc" className="font-display text-base font-semibold tracking-wide text-paper">
-								{item.title}
-							</h4>
-							<p data-ev-id="ev_aee1a8697c" className="text-base text-[#6b6b6b]">{item.note}</p>
-						</div>
-						<span data-ev-id="ev_f6d3e55a5c" className="shrink-0 bg-[#2a2a2a] px-3 py-1.5 font-mono text-[11px] tracking-[0.15em] text-[#6b6b6b]">
-							{item.status}
-						</span>
-					</div>
 				</div>
+				{/* Content */}
+				<div data-ev-id="ev_01ad521997" className="flex flex-1 items-start justify-between gap-4 pb-6 pl-4">
+					<div data-ev-id="ev_17e6308c0b" className="flex flex-col gap-1">
+						<h4 data-ev-id="ev_b9152b58fc" className="font-display text-base font-semibold tracking-wide text-paper">
+							{item.title}
+						</h4>
+						<p data-ev-id="ev_aee1a8697c" className="text-base text-[#6b6b6b]">{item.note}</p>
+					</div>
+					<span data-ev-id="ev_f6d3e55a5c" className="shrink-0 bg-[#2a2a2a] px-3 py-1.5 font-mono text-[11px] tracking-[0.15em] text-[#6b6b6b]">
+						{item.status}
+					</span>
+				</div>
+			</div>
       )}
 		</div>);
 
+}
+
+// Generic list of titled entries (e.g. experiments) — title + note, no status pill.
+function ItemList({ items }: {items: CardItem[];}) {
+  return (
+    <div data-ev-id="ev_9c1d2e3f4a" className="flex flex-col gap-5 px-6 py-5">
+			{items.map((item) => (
+        <div data-ev-id="ev_8b2c3d4e5f" key={item.title} className="flex flex-col gap-1 border-l-2 border-[#1e1e1e] pl-4">
+				<h4 data-ev-id="ev_7a1b2c3d4e" className="font-display text-base font-semibold tracking-wide text-paper">
+					{item.title}
+				</h4>
+				{item.note && (
+          <p data-ev-id="ev_6c0d1e2f3a" className="text-base text-[#6b6b6b]">{item.note}</p>
+        )}
+				{item.link && (
+          <a data-ev-id="ev_item_link" href={item.link} target="_blank" rel="noopener noreferrer" className="group/link mt-2 inline-flex w-fit items-center gap-2 font-mono text-xs tracking-[0.15em] text-accent transition-colors hover:text-paper">
+						VIEW PUBLICATION
+						<ArrowUpRight size={14} className="transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
+					</a>
+        )}
+			</div>
+      ))}
+		</div>);
+}
+
+// Renderer for the Capstone card (planned project — no fake links/metrics).
+function CapstoneBody({ card }: { card: FutureCardData }) {
+  return (
+    <div data-ev-id="ev_cap_body" className="flex flex-col gap-4 px-6 py-5">
+      {card.title && (
+        <h4 data-ev-id="ev_cap_title" className="font-display text-base font-semibold tracking-wide text-paper">
+          {card.title}
+        </h4>
+      )}
+      {card.description && (
+        <p data-ev-id="ev_cap_desc" className="text-base leading-relaxed text-[#6b6b6b]">{card.description}</p>
+      )}
+      {card.status && (
+        <p data-ev-id="ev_cap_status" className="font-mono text-[11px] tracking-[0.18em] text-dim">STATUS · {card.status}</p>
+      )}
+      {card.tech && card.tech.length > 0 && (
+        <div data-ev-id="ev_cap_tech" className="flex flex-wrap gap-2">
+          {card.tech.map((t) => (
+            <span data-ev-id="ev_cap_chip" key={t} className="border border-[#1e1e1e] px-2.5 py-1 font-mono text-[11px] tracking-[0.12em] text-dim">{t}</span>
+          ))}
+        </div>
+      )}
+      {(card.goalLabel || card.goal || card.goalNote) && (
+        <div data-ev-id="ev_cap_goal" className="mt-1 border-l-2 border-accent pl-4">
+          {card.goalLabel && (
+            <p data-ev-id="ev_cap_goallabel" className="font-mono text-xs tracking-[0.15em] text-accent">{card.goalLabel}</p>
+          )}
+          {card.goal && (
+            <p data-ev-id="ev_cap_goaldetail" className="mt-0.5 font-display text-lg font-semibold tracking-wide text-paper">{card.goal}</p>
+          )}
+          {card.goalNote && (
+            <p data-ev-id="ev_cap_goalnote" className="mt-0.5 text-sm text-[#6b6b6b]">{card.goalNote}</p>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Renderer for Field Notes / Applied AI Systems cards (exploration vs application).
+function RichBody({ card }: { card: FutureCardData }) {
+  const chips = card.tags ?? card.tech ?? [];
+  return (
+    <div data-ev-id="ev_rich_body" className="flex flex-col gap-4 px-6 py-5">
+      {card.title && (
+        <h4 data-ev-id="ev_rich_title" className="font-display text-base font-semibold tracking-wide text-paper">
+          {card.title}
+        </h4>
+      )}
+      {card.description && (
+        <p data-ev-id="ev_rich_desc" className="text-base leading-relaxed text-[#6b6b6b]">{card.description}</p>
+      )}
+      {card.question && (
+        <div data-ev-id="ev_rich_question" className="border-l-2 border-accent pl-4">
+          <p data-ev-id="ev_rich_question_text" className="text-sm italic leading-relaxed text-paper/80">{card.question}</p>
+        </div>
+      )}
+      {card.flow && (
+        <p data-ev-id="ev_rich_flow" className="font-mono text-[11px] tracking-[0.12em] text-dim">{card.flow}</p>
+      )}
+      {chips.length > 0 && (
+        <div data-ev-id="ev_rich_tech" className="flex flex-wrap gap-2">
+          {chips.map((t) => (
+            <span data-ev-id="ev_rich_chip" key={t} className="border border-[#1e1e1e] px-2.5 py-1 font-mono text-[11px] tracking-[0.12em] text-dim">{t}</span>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 }
 
 // Individual card component
@@ -73,6 +213,9 @@ function FutureCard({ card }: {card: FutureCardData;}) {
 
   return (
     <div data-ev-id="ev_dab07857de" className="flex flex-col border border-[#1e1e1e] bg-[#0a0a0a]">
+			{card.id === 'capstone' && (
+        <div data-ev-id="ev_cap_top" className="h-0.5 w-full bg-accent" />
+      )}
 			{/* Card header */}
 			<div data-ev-id="ev_7e83fc0ea0" className="flex items-center justify-between border-b border-[#1e1e1e] px-5 py-4">
 				<div data-ev-id="ev_9672a886eb" className="flex items-center gap-3">
@@ -82,24 +225,30 @@ function FutureCard({ card }: {card: FutureCardData;}) {
 					</h3>
 				</div>
 				<span data-ev-id="ev_633ffa2a16" className="font-mono text-xs tracking-[0.15em] text-accent">
-					IN PIPELINE
+					{card.badge ?? 'IN PIPELINE'}
 				</span>
 			</div>
 
 			{/* Card content */}
-			{card.empty ?
-      <EmptyState /> :
-
-      <LearningTimeline items={card.items ?? []} />
+			{card.id === 'learning' && card.items?.length ?
+        <LearningTimeline items={card.items} /> :
+        card.items?.length ?
+          <ItemList items={card.items} /> :
+        card.id === 'capstone' ?
+          <CapstoneBody card={card} /> :
+        (card.question || card.flow || card.tags || card.tech) ?
+          <RichBody card={card} /> :
+        (card.title || card.description || card.link) ?
+          <CardBody card={card} /> :
+          <EmptyState />
       }
 		</div>);
-
 }
 
 export default function FutureWork() {
-  // Safely access cards with fallback
+  // Safely access cards with fallback; show only cards with real content.
   const cards: FutureCardData[] = ((futureWork as {cards?: FutureCardData[];}).cards ?? []).filter(
-    (c) => !c.empty,
+    cardHasContent,
   );
 
   return (
@@ -119,7 +268,7 @@ export default function FutureWork() {
 					</p>
 				</div>
 
-				{/* 2-column × 3-row grid */}
+				{/* 2-column grid */}
 				<div data-ev-id="ev_56c33bd024" className="grid grid-cols-1 gap-5 lg:grid-cols-2">
 					{cards.map((card) =>
           <FutureCard key={card.id} card={card} />

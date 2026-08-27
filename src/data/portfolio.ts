@@ -334,14 +334,35 @@ export const method = [
 	{ step: 'ITERATE', note: 'Measure, recompute, and refine as the system evolves.' },
 ];
 
-export const research = [
+export interface ResearchItem {
+	num: string;
+	title: string;
+	publisher: string;
+	date: string;
+	description: string;
+	link: string;
+	category?: string;
+	paperTitle?: string;
+	authors?: string;
+	venue?: string;
+	github?: string;
+	doi?: string;
+}
+
+export const research: ResearchItem[] = [
 	{
 		num: '01',
-		title: 'AUTOMATED EVALUATION AND ASSESSMENT SYSTEM USING AI, MACHINE LEARNING, AND NLP',
-		publisher: 'SPRINGER SINGAPORE',
-		date: 'APR 15, 2026',
-		description: 'This paper was presented at the 6th International Conference on Data Science, Machine Learning, and Applications (ICDSMLA 2024). Published in Volume 1529 of the Lecture Notes in Electrical Engineering series. The research proposes an AI-driven framework for automating evaluation and assessment systems using Machine Learning and Natural Language Processing, with a focus on improving accuracy, efficiency, and scalability in large-scale textual data processing.',
+		category: 'RESEARCH PROJECT',
+		title: 'CHECKMATE — An AI-Powered Automated Evaluation and Assessment System',
+		paperTitle: 'Automated Evaluation and Assessment System Using AI, Machine Learning, and NLP',
+		authors: 'Yogitha, Kazi Afroz Alam, Jeffrey John',
+		venue: 'ICDSMLA 2024 · Lecture Notes in Electrical Engineering, vol 1529, Springer Singapore',
+		publisher: 'SPRINGER, SINGAPORE',
+		date: 'APR 1, 2026',
+		description: 'A college research project implemented as CHECKMATE, a web-based online assessment platform built with PHP, MySQL, HTML, CSS, and JavaScript. It provides student and teacher/admin panels for conducting MCQ exams, managing student records, sending announcements, and delivering instant results. The associated Springer publication introduces the Autonomous Evaluation and Assessment System (AEAS) — an AI, Machine Learning, and NLP framework for automated evaluation across MCQs, essays, coding submissions, and plagiarism checks, with subjective answers assessed by NLP and ML models that give real-time feedback. Experiments reported mixed results, but the research contributes a scalable, modular automated-assessment approach that reduced teacher workload and improved user satisfaction, while noting limits in evaluating creative or context-based responses.',
 		link: 'https://doi.org/10.1007/978-981-95-5835-3_74',
+		github: 'https://github.com/KaziAfrozAlam/CHECKMATE---An-AI-Powered-Automated-Evaluation-and-Assessment-System',
+		doi: '10.1007/978-981-95-5835-3_74',
 	},
 	{
 		num: '02',
@@ -402,7 +423,52 @@ export const aiAgent = {
 export const futureWork = {
 	title: 'FUTURE WORK',
 	subtitle: 'Systems, experiments, research, and learning currently in the pipeline.',
+	// Reserved future-work slots. They render ONLY when populated with real
+	// content (title / description / link / items) — see FutureWork.tsx, which
+	// hides any card that has no meaningful content. Fill these in later; no
+	// code change in the component is required for them to appear.
 	cards: [
+		{
+			id: 'capstone',
+			label: 'CAPSTONE WORK',
+			icon: 'git-branch',
+			empty: false,
+			badge: 'PLANNED · FLYRANK CAPSTONE',
+			status: 'PLANNED',
+			title: 'AI Engineering Knowledge & Project Copilot',
+			description: 'A retrieval-backed AI copilot that helps engineers understand unfamiliar codebases through semantic search, grounded LLM answers, and source-level citations.',
+			tech: ['Python', 'FastAPI', 'PostgreSQL', 'RAG', 'Embeddings', 'LLM', 'Background Jobs', 'Docker'],
+			goalLabel: '10× Goal',
+			goal: '~20 min → <2 min',
+			goalNote: 'Codebase understanding',
+		},
+		{
+			id: 'experiments',
+			label: 'EXPERIMENTS',
+			icon: 'flask',
+			empty: false,
+			items: [
+				{
+					title: 'Building LLM-Powered RAG Applications',
+					note: 'A hands-on project architecting retrieval-augmented generation pipelines — document chunking, embeddings, vector search, and grounding LLM outputs in private knowledge bases.',
+				},
+				{
+					title: 'Build an AI Interview Coach with LangChain',
+					note: 'Learn LangChain by building a practical AI-powered interview coach that simulates technical interviews, provides real-time feedback, and adapts to candidate responses.',
+				},
+			],
+		},
+		{
+			id: 'field-notes',
+			label: 'FIELD NOTES',
+			icon: 'book-open',
+			empty: false,
+			badge: 'FIELD NOTE · AI ENGINEERING',
+			title: 'Building a Retrieval-Backed AI Engineering Copilot',
+			description: 'Exploring how retrieval, embeddings, and evaluation can make LLM systems more grounded and useful for understanding unfamiliar software projects.',
+			question: 'How can an AI system understand an unfamiliar codebase, retrieve the right engineering context, and answer questions with evidence instead of hallucinating?',
+			tags: ['RAG', 'Embeddings', 'Retrieval', 'LLM Evaluation', 'Backend AI'],
+		},
 		{
 			id: 'learning',
 			label: 'LEARNING QUEUE',
@@ -412,6 +478,30 @@ export const futureWork = {
 				{ title: 'BASIC RAG', note: 'Foundations of retrieval-augmented generation', status: 'PLANNED' },
 				{ title: 'DISTRIBUTED SYSTEMS', note: 'Scaling ML infrastructure', status: 'PLANNED' },
 				{ title: 'ADVANCED RAG', note: 'Agentic RAG, self-RAG, corrective RAG', status: 'PLANNED' },
+			],
+		},
+		{
+			id: 'applied-ai',
+			label: 'APPLIED AI SYSTEMS',
+			icon: 'network',
+			empty: false,
+			badge: 'PLANNED · FLYRANK CAPSTONE',
+			title: 'AI Engineering Knowledge & Project Copilot',
+			description: 'A backend AI system designed to help engineers understand unfamiliar codebases through semantic retrieval, grounded LLM responses, and source-level citations.',
+			flow: 'Project ingestion → chunking → embeddings → retrieval → LLM → grounded answer + citations',
+			tech: ['Python', 'FastAPI', 'PostgreSQL', 'RAG', 'Embeddings', 'LLM', 'Background Jobs'],
+		},
+		{
+			id: 'research',
+			label: 'RESEARCH PROJECTS',
+			icon: 'microscope',
+			empty: false,
+			items: [
+				{
+					title: 'CHECKMATE — An AI-Powered Automated Evaluation and Assessment System',
+					note: 'College research project & Springer-published automated evaluation system using AI, ML, and NLP (DOI: 10.1007/978-981-95-5835-3_74).',
+					link: 'https://doi.org/10.1007/978-981-95-5835-3_74',
+				},
 			],
 		},
 	],
