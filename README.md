@@ -53,6 +53,41 @@ A recruiter-style re-review of this portfolio lives in [`Survive-the-Crit-Report
 
 ---
 
+## Site Metadata, Analytics & FlyRank Badge
+
+### Google Analytics (GA4)
+The site uses Google Analytics 4, loaded via gtag.js in `index.html`:
+- Measurement ID: **`G-VRV8G38DDF`**
+- Snippet lives in `<head>` (async loader + `gtag('config', 'G-VRV8G38DDF')`).
+
+### SEO & social-share metadata
+`index.html` carries production-ready metadata so the share preview, favicon, and
+page title are correct on the live address:
+- `<title>` + `<meta name="description">` and a `canonical` link
+- **Open Graph:** `og:type`, `og:site_name`, `og:title`, `og:description`, `og:url`,
+  and `og:image` → `https://kaziafrozalam.netlify.app/og-image.png`
+- **Twitter:** `twitter:card=summary_large_image`, `twitter:title`,
+  `twitter:description`, `twitter:image`
+- **Favicon:** `/favicon.svg` (matches the dark `#080808` theme)
+
+> `public/og-image.png` is copied to `dist/` on build. If you move to a custom
+> domain, update `canonical`, `og:url`, and the `og:image` / `twitter:image` base
+> URLs in `index.html`.
+
+### FlyRank Graduate Badge
+The footer (`src/components/Footer.tsx`) renders the official **dark** FlyRank
+Graduate Badge (compact pill). It links to the verification page and opens in a
+new tab:
+- `href`: `https://internship.flyrank.ai/verify?id=FR-D1-T668H-R789R&first_name=Kazi%20Afroz`
+- `target="_blank"`, `rel="noopener noreferrer"`
+- `aria-label`: `Verify Kazi Afroz Alam's FlyRank AI Internship credential FR-D1-T668H-R789R`
+- Credential ID shown on the badge: `FR-D1-T668H-R789R`
+
+The badge is the official asset from `https://internship-badge.netlify.app/`
+(dark variant). Do not restyle it; replace the JSX if FlyRank updates the asset.
+
+---
+
 ## Features
 
 - **Sections** — Hero (with a **BOOK A CALL** CTA), About, Experience (incl. FlyRank AI), Projects (9 projects), Skills, Metrics, Education, Publications, a fully-developed **Future Work** roadmap (six workstreams: Capstone, Experiments, Research Projects, Field Notes, Applied AI Systems, Learning Queue), an interactive **AI Agent**, and a Contact form.
