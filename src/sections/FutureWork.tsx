@@ -151,6 +151,17 @@ function CapstoneBody({ card }: { card: FutureCardData }) {
       {card.status && (
         <p data-ev-id="ev_cap_status" className="font-mono text-[11px] tracking-[0.18em] text-dim">STATUS · {card.status}</p>
       )}
+      {card.link && (
+        <a
+          data-ev-id="ev_cap_link"
+          href={card.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex w-fit items-center gap-2 border border-[#1e1e1e] px-4 py-2 font-mono text-xs tracking-[0.15em] text-paper transition-colors hover:border-accent hover:text-accent"
+        >
+          VIEW PROJECT
+        </a>
+      )}
       {card.tech && card.tech.length > 0 && (
         <div data-ev-id="ev_cap_tech" className="flex flex-wrap gap-2">
           {card.tech.map((t) => (
@@ -202,6 +213,17 @@ function RichBody({ card }: { card: FutureCardData }) {
             <span data-ev-id="ev_rich_chip" key={t} className="border border-[#1e1e1e] px-2.5 py-1 font-mono text-[11px] tracking-[0.12em] text-dim">{t}</span>
           ))}
         </div>
+      )}
+      {card.link && (
+        <a
+          data-ev-id="ev_rich_link"
+          href={card.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex w-fit items-center gap-2 border border-[#1e1e1e] px-4 py-2 font-mono text-xs tracking-[0.15em] text-paper transition-colors hover:border-accent hover:text-accent"
+        >
+          VIEW PROJECT
+        </a>
       )}
     </div>
   );

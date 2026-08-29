@@ -1,5 +1,7 @@
 import Section, { SnapText } from '@/components/ui/Section';
-import { aiAgent, certifications, currentSystem, experience, futureWork, profile, projects, research, skillGroups } from '@/data/portfolio';
+import { aiAgent } from '@/data/portfolio';
+import * as portfolio from '@/data/portfolio';
+import { flattenPortfolio } from '@/lib/portfolioContext';
 import { Bot, ChevronRight, Send, Sparkles, User } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
@@ -11,88 +13,59 @@ interface Message {
   text: string;
 }
 
-// Simple pattern matching for grounded responses
-function getAgentResponse(query: string): string {
+// Live snapshot of the portfolio (single source of truth). Serialized once and
+// sent to the edge function as grounding context, and used by the local
+// fallback. Automatically reflects portfolio.ts on every build — no hardcoded
+// knowledge to keep in sync.
+const portfolioSnapshot: unknown = (() => {
+  try {
+    return JSON.parse(JSON.stringify(portfolio));
+  } catch {
+    return {};
+  }
+})();
+
+// Dynamic, portfolio-grounded fallback. Retrieves the most relevant content from
+// the live portfolio snapshot — no hardcoded answers, so it stays in sync when
+// portfolio.ts changes.
+function getLocalAnswer(query: string): string {
+  const chunks = flattenPortfolio(portfolioSnapshot);
   const q = query.toLowerCase();
-
-  if (q.includes('skill') || q.includes('tech') || q.includes('stack')) {
-    const skills = skillGroups.flatMap((g) => g.items).filter((v, i, a) => a.indexOf(v) === i).slice(0, 12);
-    return `My core technical stack includes: ${skills.join(', ')}. I specialize in Backend AI Engineering with a focus on RAG systems, embeddings-based retrieval, and production ML deployment.`;
+  const terms = q.split(/\W+/).filter((t) => t.length > 2);
+  let best: { section: string; text: string } | null = null;
+  let bestScore = 0;
+  for (const c of chunks) {
+    const text = c.text.toLowerCase();
+    let score = 0;
+    for (const t of terms) if (text.includes(t)) score++;
+    if (c.section.toLowerCase().includes(q)) score += 3;
+    if (score > bestScore) {
+      bestScore = score;
+      best = c;
+    }
   }
-
-    if (q.includes('flyrank') || q.includes('current') || q.includes('now')) {
-    return `I'm currently at FlyRank AI (Backend AI Engineering Intern). ${currentSystem.body.slice(0, 240)}`;
+  if (!best || bestScore === 0) {
+    return "That information isn't available in the portfolio. Try asking about my skills, projects, experience, publications, certifications, or future work.";
   }
-
-  if (q.includes('ml') || q.includes('model') || q.includes('machine learning')) {
-    return `I've engineered 8+ classification and regression models using Scikit-learn and TensorFlow. At Rooman Technologies, I automated model scoring pipelines (eliminating ~40% manual work) and boosted F1 scores by ~15% through feature engineering and hyperparameter tuning on imbalanced datasets.`;
-  }
-
-    if (q.includes('rag') || q.includes('retrieval') || q.includes('embedding')) {
-    return `RAG and embeddings are a core focus. I built an LLM-powered RAG Personal Command Center with Express.js, local retrieval, and grounded responses (with server-side API-key handling). I work with embeddings and retrieval across my backend AI engineering, and I'm exploring advanced patterns like agentic RAG, self-RAG, and corrective RAG.`;
-  }
-
-  if (q.includes('learn') || q.includes('studying') || q.includes('next')) {
-    const learning = futureWork.cards.find((c) => c.id === 'learning');
-    const topics = learning?.items?.length
-      ? learning.items.map((i) => i.title).join(', ')
-      : 'RAG patterns and distributed systems';
-    return `I'm currently deepening my knowledge in: ${topics}. I stay hands-on with backend AI systems, retrieval, and production ML so I can keep building reliable, real-world engineering solutions.`;
-  }
-
-  if (q.includes('publication') || q.includes('research') || q.includes('paper')) {
-    return `I've co-authored 2 peer-reviewed publications: "${research[0].title}" (${research[0].publisher}, ${research[0].date}) and "${research[1].title}" (${research[1].publisher}, ${research[1].date}).`;
-  }
-
-  if (q.includes('experience') || q.includes('work') || q.includes('intern')) {
-    const exp = experience.map((e) => `${e.company} (${e.role})`).join(', ');
-    return `My professional experience: ${exp}. I've built ML pipelines, backend APIs, and data engineering solutions across these roles.`;
-  }
-
-  if (q.includes('education') || q.includes('degree') || q.includes('college')) {
-    return `B.E. in Computer Science & Engineering from New Horizon College of Engineering (VTU, Bangalore), graduating in 2025 with a CGPA of 7.35/10. My foundation in CS led me through software → data → ML → AI → Backend systems.`;
-  }
-
-  if (q.includes('certification') || q.includes('course') || q.includes('credential')) {
-    const certs = certifications.slice(0, 3).map((c) => c.name).join(', ');
-    return `I hold ${certifications.length} certifications including: ${certs}, and more. These complement my hands-on engineering experience.`;
-  }
-
-  if (q.includes('contact') || q.includes('reach') || q.includes('email') || q.includes('hire')) {
-    return `You can reach me at ${profile.email} or connect on LinkedIn (linkedin.com/in/kazi-afroz-alam). I'm open to discussing AI systems, backend engineering, and interesting technical challenges.`;
-  }
-
-    if (q.includes('project') || q.includes('built') || q.includes('portfolio')) {
-    const titles = projects.map((p) => p.title).join(', ');
-    return `Some of my projects: ${titles}. Ask me about any one for details!`;
-  }
-
-  if (q.includes('dns') || q.includes('cname') || q.includes('nameserver') || q.includes('domain name') || q.includes('how does a website') || q.includes('how does a url') || q.includes('resolve')) {
-    return aiAgent.knowledgeBase.dns;
-  }
-
-  if (q.includes('readme') || q.includes('read me') || q.includes('documentation') || q.includes('how is this site built') || q.includes('how was this built') || q.includes('project overview')) {
-    return aiAgent.knowledgeBase.readme;
-  }
-
-  // Default response
-  return `I'm ${profile.name}, a Backend AI Engineer building retrieval systems, embeddings-based applications, and production ML APIs. Ask me about my skills, projects, current work at FlyRank, publications, DNS, or the project README — and if you have a more general technical question, just ask!`;
+  const out = `${best.section}: ${best.text}`.trim();
+  return out.length > 1200 ? `${out.slice(0, 1200)}…` : out;
 }
 
-// Calls the `ai-agent` edge function for a grounded answer, falling back to the
-// local responder if the function isn't deployed or errors.
+// Calls the `ai-agent` edge function with the live portfolio snapshot; the
+// function grounds its answer on that snapshot. Falls back to local retrieval
+// over the same snapshot if the function isn't deployed or errors.
 async function getAgentAnswer(query: string): Promise<string> {
   if (supabase) {
     try {
       const { data, error } = await supabase.functions.invoke('ai-agent', {
-        body: { query, sessionId: String(Date.now()) },
+        body: { query, sessionId: String(Date.now()), context: portfolioSnapshot },
       });
       if (!error && data && typeof data.answer === 'string') return data.answer;
     } catch {
-      // fall back to local grounded responses
+      // fall back to local grounded retrieval
     }
   }
-  return getAgentResponse(query);
+  return getLocalAnswer(query);
 }
 
 export default function AIAgent() {
